@@ -1,1 +1,14 @@
-
+{
+  "local": {
+    "baseUrl": "http://localhost:4000/fashionhub/",
+    "githubRepo": "appwrite/appwrite"
+  },
+  "staging": {
+    "baseUrl": "https://staging-env/fashionhub/",
+    "githubRepo": "appwrite/appwrite"
+  },
+  "production": {
+    "baseUrl": "https://pocketaces2.github.io/fashionhub/",
+    "githubRepo": "appwrite/appwrite"
+  }
+}
