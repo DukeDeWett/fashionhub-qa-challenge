@@ -12,7 +12,10 @@ import { test, expect, Page } from '@playwright/test';
  * genuine JS-level console.error()/uncaught-exception messages separately.
  * The only thing we deliberately exclude is the favicon: the site ships no
  * favicon.ico, so every browser auto-requests one and logs a 404 — universal
- * browser behavior unrelated to the app's own code, not a real bug.
+ * browser behavior unrelated to the app's own code, not a real bug. Firefox
+ * blocks the favicon request client-side via CSP before any HTTP response
+ * occurs, so it never reaches the 'response' listener — it's filtered from
+ * console text directly instead.
  */
 async function collectPageIssues(page: Page, path: string) {
   const consoleErrors: string[] = [];
@@ -20,7 +23,11 @@ async function collectPageIssues(page: Page, path: string) {
   const failedRequests: string[] = [];
 
   page.on('console', (msg) => {
-    if (msg.type() === 'error' && !/failed to load resource/i.test(msg.text())) {
+    if (
+      msg.type() === 'error' &&
+      !/failed to load resource/i.test(msg.text()) &&
+      !/favicon/i.test(msg.text())
+    ) {
       consoleErrors.push(msg.text());
     }
   });
