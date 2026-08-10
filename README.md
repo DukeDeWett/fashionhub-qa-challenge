@@ -132,3 +132,12 @@ against the real page before relying on it in CI.
 - **Staging URL**: `https://staging-env/fashionhub/` in the brief is a placeholder,
   non-resolvable domain — kept as config-only so the suite is ready to point at a real
   staging host by editing one line in `environments.json`.
+
+## Known issues found by the suite
+
+- **Broken homepage link to domain root**: `tests/link-status-codes.spec.ts` fails
+  consistently across all 3 browsers because a link on the home page resolves to
+  `https://pocketaces2.github.io/` (the bare GitHub Pages domain root) instead of
+  `https://pocketaces2.github.io/fashionhub/`. Since this is a project site, the
+  bare root returns a 404. This is a genuine defect on the live site, not an issue
+  with the test — Test Case 2 is correctly flagging it as specified.
