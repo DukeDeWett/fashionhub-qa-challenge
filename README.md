@@ -135,9 +135,12 @@ against the real page before relying on it in CI.
 
 ## Known issues found by the suite
 
-- **Broken homepage link to domain root**: `tests/link-status-codes.spec.ts` fails
-  consistently across all 3 browsers because a link on the home page resolves to
-  `https://pocketaces2.github.io/` (the bare GitHub Pages domain root) instead of
-  `https://pocketaces2.github.io/fashionhub/`. Since this is a project site, the
-  bare root returns a 404. This is a genuine defect on the live site, not an issue
-  with the test — Test Case 2 is correctly flagging it as specified.
+- **Broken reference to the domain root**: `tests/console-errors.spec.ts` and
+  `tests/link-status-codes.spec.ts` both fail consistently, in all 3 browsers,
+  on the exact same URL: `https://pocketaces2.github.io/` returns a 404. Something
+  on the home page references the bare GitHub Pages domain root instead of
+  `https://pocketaces2.github.io/fashionhub/`. Since this is a project site (not
+  a user/org root site), the bare root doesn't resolve. Two independent checks —
+  a live network-response listener and an explicit link crawler — catch it
+  identically, across all three browser engines, which is strong evidence this
+  is a genuine site defect rather than a test issue.
